@@ -1,0 +1,50 @@
+syntax = "proto3";
+option go_package = "github.com/jufianto/state-agent/agent-proto";
+
+enum TransactionStatus {
+    UNKNOWN_STATUS = 0;
+    PROCESSING = 1;
+    FAILED = 2;
+    SUCCESS = 3;
+}
+
+enum TransactionType {
+    UNKNOWN_TRX = 0;
+    PURCHASE = 1;
+    TRANSFER = 2;
+    DEPOSIT = 3;
+    PAYMENT = 4;
+}
+
+message TransactionRequest {
+    string reference_id = 1;
+    TransactionType transaction_type = 2;
+    float amount  = 3;
+    string transaction_date = 4;
+}
+
+message GenerateRequest {
+    string start_day = 1;
+    string stop_day = 2;
+}
+
+message GenerateResponse {
+    string file_name = 1;
+    int64 rows_inserted = 2; 
+}
+
+message FileRequest {}
+
+message Files{
+    string file_name = 1;
+    string file_location = 2;
+    int64 rows_inserted = 3;
+}
+message FileResponse {
+    repeated Files files = 1;
+}
+
+service TransactionService {
+    rpc GenerateData(GenerateRequest) returns (GenerateResponse) {}
+    rpc ListFiles(FileRequest) returns (FileResponse) {}
+}
