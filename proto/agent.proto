@@ -1,0 +1,50 @@
+syntax = "proto3";
+option go_package = "github.com/jufianto/state-agent/agentsrv-proto";
+
+enum TaskStatus{
+    UNKNOWN = 0;
+    PROCESSING = 1;
+    FAILED = 2;
+    SUCCESS = 3;
+}
+
+message TaskRequest{
+    string task_id = 1;
+    string task_name = 2;
+    string task_url = 3;
+}
+
+message TaskResponse{
+    string task_id = 1;
+    string task_result = 2;
+    TaskStatus task_status = 3;
+
+}
+
+message TaskListResponse{
+    repeated TaskResponse tasks = 1;
+}
+
+message TaskListRequest{
+    repeated string tasks_id = 1;
+}
+
+message TaskNotify{
+    string task_id = 1;
+    TaskStatus task_status = 2;
+}
+
+message TaskStatusRequest {
+    string task_id = 1;
+}
+
+message TasksStatusResponse {
+    string task_id = 1;
+    TaskStatus task_status = 2;
+}
+
+service TaskService{
+    rpc CreateTask(TaskRequest) returns (TaskResponse) {}
+    rpc ListTask(TaskListRequest) returns (TaskListResponse) {}
+    rpc StatusTask(TaskStatusRequest) returns (TasksStatusResponse){}
+}
