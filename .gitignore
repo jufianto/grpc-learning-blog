@@ -1,0 +1,7 @@
+# Ignore VSCode workspace and settings files
+.vscode/
+
+# Ignore debug-specific files if any temporary debug output files are generated
+*.log
+*.tmp
+*.cache
